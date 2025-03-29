@@ -3,7 +3,6 @@ import proxyquire from "proxyquire";
 import chai, { expect } from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
-import timers, { InstalledClock } from "@sinonjs/fake-timers";
 
 import { Socket } from "../../src/Connection/Socket";
 
@@ -16,8 +15,6 @@ const emit = (stub: any, event: string, ...payload: any[]) => {
 };
 
 describe("Socket", () => {
-    let clock: InstalledClock;
-
     let connection: any;
     let options: any;
     let events: any;
@@ -27,8 +24,6 @@ describe("Socket", () => {
     let socketType: typeof Socket;
 
     before(() => {
-        clock = timers.install();
-
         socketType = proxyquire("../../src/Connection/Socket", {
             tls: {
                 connect: (port: number, host: string, settings: any) => {
@@ -48,10 +43,6 @@ describe("Socket", () => {
                 },
             },
         }).Socket;
-    });
-
-    after(() => {
-        clock.uninstall();
     });
 
     beforeEach(() => {
@@ -212,10 +203,10 @@ describe("Socket", () => {
     });
 
     describe("onSocketTimeout()", () => {
-        it("should emit a timeout event when the socket timesout", (done) => {
+        it("should emit a timeout error event when the socket timesout", (done) => {
             socket.connect().then(() => {
                 emit(connection, "timeout");
-                expect(events).to.be.calledWith("Timeout");
+                expect(events).to.be.calledWith("Error");
 
                 done();
             });
@@ -228,7 +219,6 @@ describe("Socket", () => {
         it("should emit a disconenct event when the socket closes", (done) => {
             socket.connect().then(() => {
                 emit(connection, "close");
-                clock.tick(1_000);
                 expect(events).to.be.calledWith("Disconnect");
 
                 done();
@@ -261,41 +251,6 @@ describe("Socket", () => {
             });
 
             emit(connection, "secureConnect");
-        });
-
-        const TEST_DISCONNECT_ERRORS = ["ENOTFOUND", "ENETUNREACH", "EHOSTUNREACH", "ECONNRESET", "EPIPE"];
-
-        TEST_DISCONNECT_ERRORS.forEach((TEST_CASE) => {
-            it(`should emit a disconnect event when the socket emits a ${TEST_CASE} error`, (done) => {
-                const error = new Error(`${TEST_CASE}: TEST_ERROR`);
-
-                socket.connect().then(() => {
-                    emit(connection, "error", error);
-                    clock.tick(1_100);
-                    expect(events).to.be.calledWith("Disconnect");
-
-                    done();
-                });
-
-                emit(connection, "secureConnect");
-            });
-        });
-
-        const TEST_TIMEOUT_ERRORS = ["ETIMEDOUT"];
-
-        TEST_TIMEOUT_ERRORS.forEach((TEST_CASE) => {
-            it(`should emit a timeout event when the socket emits a ${TEST_CASE} error`, (done) => {
-                const error = new Error(`${TEST_CASE}: TEST_ERROR`);
-
-                socket.connect().then(() => {
-                    emit(connection, "error", error);
-                    expect(events).to.be.calledWith("Timeout");
-
-                    done();
-                });
-
-                emit(connection, "secureConnect");
-            });
         });
     });
 });

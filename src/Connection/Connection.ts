@@ -29,7 +29,6 @@ const REACHABLE_TIMEOUT = 1_000;
  */
 export class Connection extends Parser<{
     Connect: (protocol: string) => void;
-    Timeout: () => void;
     Disconnect: () => void;
     Response: (response: Response) => void;
     Message: (response: Response) => void;
@@ -112,7 +111,6 @@ export class Connection extends Parser<{
 
             socket.on("Data", this.onSocketData);
             socket.on("Error", this.onSocketError);
-            socket.on("Timeout", this.onSocketTimeout);
             socket.on("Disconnect", this.onSocketDisconnect);
 
             socket
@@ -458,13 +456,6 @@ export class Connection extends Parser<{
         } else {
             this.emit("Message", JSON.parse(data.toString()));
         }
-    };
-
-    /*
-     * Listenes for socket timeouts and will bubble upo to the client.
-     */
-    private onSocketTimeout = (): void => {
-        this.emit("Timeout");
     };
 
     /*

@@ -239,10 +239,12 @@ export class Client extends EventEmitter<{
 
         processor
             .on("Disconnect", () => {
-                this.onDiscovered(host);
+                setTimeout(() => this.onDiscovered(host), RETRY_BACKOFF_DURATION);
             })
             .on("Connect", () => {
                 if (this.refresh) processor.clear();
+
+                // RESET RETRIES
 
                 Promise.all([processor.system(), processor.project(), processor.areas()])
                     .then(([system, project, areas]) => {
@@ -261,7 +263,7 @@ export class Client extends EventEmitter<{
                                     if (device != null) device.update(status);
                                 }
                             })
-                            .catch((error) => log.error(Colors.red(error.message)));
+                            .catch((error) => this.onProcessorError(host, error));
 
                         processor
                             .subscribe<AreaStatus[]>({ href: "/area/status" }, (statuses: AreaStatus[]): void => {
@@ -271,7 +273,7 @@ export class Client extends EventEmitter<{
                                     if (occupancy != null && status.OccupancyStatus != null) occupancy.update(status);
                                 }
                             })
-                            .catch((error) => log.error(Colors.red(error.message)));
+                            .catch((error) => this.onProcessorError(host, error));
 
                         if (type === "RadioRa3Processor") {
                             processor
@@ -287,7 +289,7 @@ export class Client extends EventEmitter<{
                                         }
                                     },
                                 )
-                                .catch((error) => log.error(`timeclock ${Colors.red(error.message)}`));
+                                .catch((error) => this.onProcessorError(host, error));
                         }
 
                         for (const area of areas) {
@@ -336,19 +338,11 @@ export class Client extends EventEmitter<{
                             this.emit("Available", [...processor.devices.values()]);
                         });
                     })
-                    .catch((error) => log.error(Colors.red(error.message)));
+                    .catch((error) => this.onProcessorError(host, error));
             })
-            .on("Error", (error: Error) => {
-                processor.log.error("a connection error has occoured", error);
-            });
+            .on("Error", (error: Error) => this.onProcessorError(host, error));
 
-        processor.connect().catch((error) => {
-            log.error(Colors.red(error.message));
-
-            if (error.message.match(/ECONNREFUSED/g) != null) {
-                setTimeout(() => this.onDiscovered(host), RETRY_BACKOFF_DURATION);
-            }
-        });
+        processor.connect().catch((error) => this.onProcessorError(host, error));
     };
 
     /*
@@ -364,5 +358,23 @@ export class Client extends EventEmitter<{
      */
     private onDeviceAction = (device: Device, button: Button, action: Action): void => {
         this.emit("Action", device, button, action);
+    };
+
+    private onProcessorError = (host: ProcessorAddress, error: Error): void => {
+        if (error.message == null) {
+            log.error(Colors.red(String(error)));
+
+            return;
+        }
+
+        if (
+            error.message.match(/ENOTFOUND|ENETUNREACH|EHOSTUNREACH|ECONNRESET|EPIPE|ECONNREFUSED|ETIMEDOUT/g) != null
+        ) {
+            setTimeout(() => this.onDiscovered(host), RETRY_BACKOFF_DURATION);
+
+            return;
+        }
+
+        log.error(Colors.red(error.message));
     };
 }

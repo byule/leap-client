@@ -68,7 +68,6 @@ export class ProcessorController
         this.connection.on("Message", this.onMessage);
         this.connection.on("Error", this.onError);
 
-        this.connection.once("Timeout", this.onDisconnect);
         this.connection.once("Disconnect", this.onDisconnect);
     }
 

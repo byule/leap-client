@@ -43,11 +43,33 @@ describe("Client", () => {
     let parse: any;
 
     let addresses: any;
+    let firmware: any;
 
     before(() => {
         clock = timers.install();
 
         clientType = proxyquire("../src/Client", {
+            "js-logger": {
+                get: () => {
+                    return {
+                        info(...args: any): void {
+                            logger.info(...args);
+                        },
+
+                        debug(...args: any): void {
+                            logger.debug(...args);
+                        },
+
+                        warn(...args: any): void {
+                            logger.warn(...args);
+                        },
+
+                        error(...args: any): void {
+                            logger.error(...args);
+                        },
+                    };
+                },
+            },
             "./Connection/Connection": {
                 Connection: class {},
             },
@@ -210,6 +232,11 @@ describe("Client", () => {
         addressable = sinon.stub();
         parse = sinon.stub();
 
+        firmware = {
+            DeviceType: "RadioRa3Processor",
+            FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
+        };
+
         create = {
             callbacks: {},
 
@@ -265,22 +292,6 @@ describe("Client", () => {
         expect(stop).to.be.called;
     });
 
-    it("should log an error when the processor emits an error event", () => {
-        const update = sinon.stub();
-
-        has.returns(true);
-        get.returns({ update });
-        parse.returns("Occupancy");
-        addressable.returns(true);
-
-        client = new clientType(true);
-        discovery["Discovered"]({ id: "ID_ONE", addresses: [{ family: 4, address: "0.0.0.0" }] });
-        processor["Connect"]();
-        processor["Error"]("TEST_ERROR");
-
-        expect(logger.error).to.be.calledWith("a connection error has occoured", "TEST_ERROR");
-    });
-
     describe("onDiscovered()", () => {
         it("should create a ra3 processor when discovered", async () => {
             const update = sinon.stub();
@@ -292,13 +303,12 @@ describe("Client", () => {
 
             client = new clientType(true);
             discovery["Discovered"]({ id: "ID_ONE", addresses: [{ family: 4, address: "0.0.0.0" }] });
+
+            connect.resolve();
+
             processor["Connect"]();
 
-            system.resolve({
-                DeviceType: "RadioRa3Processor",
-                FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
-            });
-
+            system.resolve(firmware);
             project.resolve({ ProductType: "TEST_PRODUCT" });
             areas.resolve([{ IsLeaf: true }, { IsLeaf: true, href: "/AREA/CONTROL" }, { IsLeaf: false }]);
 
@@ -346,11 +356,7 @@ describe("Client", () => {
             discovery["Discovered"]({ id: "ID_ONE", addresses: [{ family: 4, address: "0.0.0.0" }] });
             processor["Connect"]();
 
-            system.resolve({
-                DeviceType: "Caseta",
-                FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
-            });
-
+            system.resolve({ ...firmware, DeviceType: "Caseta" });
             project.resolve({ ProductType: "TEST_PRODUCT" });
             areas.resolve([{ IsLeaf: true }, { IsLeaf: true, href: "/AREA/CONTROL" }, { IsLeaf: false }]);
 
@@ -392,11 +398,7 @@ describe("Client", () => {
             discovery["Discovered"]({ id: "ID_ONE", addresses: [{ family: 4, address: "0.0.0.0" }] });
             processor["Connect"]();
 
-            system.resolve({
-                DeviceType: "RadioRa3Processor",
-                FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
-            });
-
+            system.resolve(firmware);
             project.resolve({ ProductType: "TEST_PRODUCT" });
             areas.resolve([{ IsLeaf: true }, { IsLeaf: true, href: "/AREA/CONTROL" }, { IsLeaf: false }]);
 
@@ -439,11 +441,7 @@ describe("Client", () => {
             discovery["Discovered"]({ id: "ID_ONE", addresses: [{ family: 4, address: "0.0.0.0" }] });
             processor["Connect"]();
 
-            system.resolve({
-                DeviceType: "RadioRa3Processor",
-                FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
-            });
-
+            system.resolve(firmware);
             project.resolve({ ProductType: "TEST_PRODUCT" });
             areas.resolve([{ IsLeaf: true }, { IsLeaf: true, href: "/AREA/CONTROL" }, { IsLeaf: false }]);
 
@@ -456,7 +454,7 @@ describe("Client", () => {
 
             client.close();
         });
-
+        // HERE
         it("should reject if any system, project or areas fails", async () => {
             has.returns(true);
             get.returns(undefined);
@@ -472,6 +470,8 @@ describe("Client", () => {
             areas.reject("TEST_ERROR");
 
             await clock.runToLastAsync();
+
+            expect(logger.error.getCall(0).args[0]).to.contain("TEST_ERROR");
         });
 
         it("should reject if subscriptions fail", async () => {
@@ -486,11 +486,7 @@ describe("Client", () => {
             discovery["Discovered"]({ id: "ID_ONE", addresses: [{ family: 4, address: "0.0.0.0" }] });
             processor["Connect"]();
 
-            system.resolve({
-                DeviceType: "RadioRa3Processor",
-                FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
-            });
-
+            system.resolve(firmware);
             project.resolve({ ProductType: "TEST_PRODUCT" });
             areas.resolve([{ IsLeaf: true }, { IsLeaf: true, href: "/AREA/CONTROL" }, { IsLeaf: false }]);
 
@@ -515,6 +511,8 @@ describe("Client", () => {
             device.reject("TEST_ERROR");
 
             await clock.runToLastAsync();
+
+            expect(logger.error.getCall(0).args[0]).to.contain("TEST_ERROR");
         });
 
         it("should reject if device requests fail", async () => {
@@ -529,11 +527,7 @@ describe("Client", () => {
             discovery["Discovered"]({ id: "ID_ONE", addresses: [{ family: 4, address: "0.0.0.0" }] });
             processor["Connect"]();
 
-            system.resolve({
-                DeviceType: "RadioRa3Processor",
-                FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
-            });
-
+            system.resolve(firmware);
             project.resolve({ ProductType: "TEST_PRODUCT" });
             areas.resolve([{ IsLeaf: true }, { IsLeaf: true, href: "/AREA/CONTROL" }, { IsLeaf: false }]);
 
@@ -570,11 +564,7 @@ describe("Client", () => {
             discovery["Discovered"]({ id: "ID_TWO", addresses: [{ family: 4, address: "0.0.0.0" }] });
             processor["Connect"]();
 
-            system.resolve({
-                DeviceType: "RadioRa3Processor",
-                FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
-            });
-
+            system.resolve(firmware);
             project.resolve({ ProductType: "TEST_PRODUCT" });
             areas.resolve([{ IsLeaf: true }, { IsLeaf: false }]);
 
@@ -616,41 +606,56 @@ describe("Client", () => {
 
             expect(logger.info).to.not.be.called;
         });
+    });
 
-        it("should log an error when the connection fails", () => {
+    describe("onProcessorError()", () => {
+        beforeEach(() => {
             has.returns(true);
             client = new clientType(true);
             discovery["Discovered"]({ id: "ID", addresses: [{ family: 4, address: "0.0.0.0" }] });
-
-            connect.reject(new Error("TEST_ERROR"));
         });
 
-        it("should retry if the connection is refeused", async () => {
-            has.returns(true);
-            client = new clientType(true);
-            discovery["Discovered"]({ id: "ID", addresses: [{ family: 4, address: "0.0.0.0" }] });
-
-            connect.reject(new Error("ECONNREFUSED"));
-            connect = sinon.promise();
-            clock.tick(5_001);
-
-            processor["Connect"]();
-
-            system.resolve({
-                DeviceType: "RadioRa3Processor",
-                FirmwareImage: { Firmware: { DisplayName: "VERSION" } },
-            });
-
-            project.resolve({ ProductType: "TEST_PRODUCT" });
-            areas.resolve([{ IsLeaf: true }, { IsLeaf: true, href: "/AREA/CONTROL" }, { IsLeaf: false }]);
+        it("should log an error when the processor emits an error", async () => {
+            connect.resolve();
+            processor["Error"](new Error("TEST_ERROR"));
 
             await clock.runToLastAsync();
 
-            expect(clear).to.be.called;
+            console.log(logger.error.getCalls());
 
-            expect(logger.info.getCall(0).args[0]).to.contain("Processor");
-            expect(logger.info.getCall(1).args[0]).to.contain("Firmware");
-            expect(logger.info.getCall(2).args[0]).to.contain("TEST_PRODUCT");
+            expect(logger.error.getCall(0).args[0]).to.contain("TEST_ERROR");
+        });
+
+        const TEST_DISCONNECT_ERRORS = [
+            "ENOTFOUND",
+            "ENETUNREACH",
+            "EHOSTUNREACH",
+            "ECONNRESET",
+            "EPIPE",
+            "ECONNREFUSED",
+            "ETIMEDOUT",
+        ];
+
+        TEST_DISCONNECT_ERRORS.forEach((TEST_CASE) => {
+            it(`should retry if the processor emits a ${TEST_CASE} error`, async () => {
+                connect.reject(new Error(TEST_CASE));
+                connect = sinon.promise();
+                clock.tick(5_001);
+
+                processor["Connect"]();
+
+                system.resolve(firmware);
+                project.resolve({ ProductType: "TEST_PRODUCT" });
+                areas.resolve([{ IsLeaf: true }, { IsLeaf: true, href: "/AREA/CONTROL" }, { IsLeaf: false }]);
+
+                await clock.runToLastAsync();
+
+                expect(clear).to.be.called;
+
+                expect(logger.info.getCall(0).args[0]).to.contain("Processor");
+                expect(logger.info.getCall(1).args[0]).to.contain("Firmware");
+                expect(logger.info.getCall(2).args[0]).to.contain("TEST_PRODUCT");
+            });
         });
     });
 });

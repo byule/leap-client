@@ -621,8 +621,6 @@ describe("Client", () => {
 
             await clock.runToLastAsync();
 
-            console.log(logger.error.getCalls());
-
             expect(logger.error.getCall(0).args[0]).to.contain("TEST_ERROR");
         });
 

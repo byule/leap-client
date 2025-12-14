@@ -6,7 +6,7 @@ Defines a timeclock device.
 
 ## Extends
 
-- `Timeclock`
+-   `Timeclock`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `TimeclockInterface.address`
 
-***
+---
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `TimeclockInterface.area`
 
-***
+---
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
- \[`key`: `string`\]: `Capability`
+\[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `TimeclockInterface.capabilities`
 
-***
+---
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `TimeclockInterface.id`
 
-***
+---
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `TimeclockInterface.log`
 
-***
+---
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `TimeclockInterface.manufacturer`
 
-***
+---
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `TimeclockInterface.name`
 
-***
+---
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `TimeclockInterface.room`
 
-***
+---
 
 ### status
 
@@ -126,7 +126,7 @@ The device's state.
 
 `TimeclockInterface.status`
 
-***
+---
 
 ### type
 
@@ -164,7 +164,7 @@ The payload attached to the event.
 
 `TimeclockInterface.emit`
 
-***
+---
 
 ### off()
 
@@ -190,7 +190,7 @@ The listener to unbind.
 
 `TimeclockInterface.off`
 
-***
+---
 
 ### on()
 
@@ -216,7 +216,7 @@ The listener to bind.
 
 `TimeclockInterface.on`
 
-***
+---
 
 ### once()
 
@@ -242,7 +242,7 @@ The listener to bind.
 
 `TimeclockInterface.once`
 
-***
+---
 
 ### set()
 
@@ -264,7 +264,7 @@ A partial device state object.
 
 `TimeclockInterface.set`
 
-***
+---
 
 ### update()
 

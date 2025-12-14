@@ -6,7 +6,7 @@ Defines an occupancy sensor's current status response.
 
 ## Extends
 
-- `DeviceState`
+-   `DeviceState`
 
 ## Properties
 

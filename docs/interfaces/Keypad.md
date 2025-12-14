@@ -6,7 +6,7 @@ Defines a keypad device.
 
 ## Extends
 
-- `Keypad`
+-   `Keypad`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `KeypadInterface.address`
 
-***
+---
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `KeypadInterface.area`
 
-***
+---
 
 ### buttons
 
@@ -44,7 +44,7 @@ The buttons available on the device.
 
 `KeypadInterface.buttons`
 
-***
+---
 
 ### capabilities
 
@@ -55,13 +55,13 @@ or read.
 
 #### Index Signature
 
- \[`key`: `string`\]: `Capability`
+\[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `KeypadInterface.capabilities`
 
-***
+---
 
 ### id
 
@@ -73,7 +73,7 @@ The device's unique identifier.
 
 `KeypadInterface.id`
 
-***
+---
 
 ### log
 
@@ -86,7 +86,7 @@ room and id.
 
 `KeypadInterface.log`
 
-***
+---
 
 ### manufacturer
 
@@ -98,7 +98,7 @@ The device's manufacturer.
 
 `KeypadInterface.manufacturer`
 
-***
+---
 
 ### name
 
@@ -110,7 +110,7 @@ The device's configured name.
 
 `KeypadInterface.name`
 
-***
+---
 
 ### room
 
@@ -122,7 +122,7 @@ The device's configured room.
 
 `KeypadInterface.room`
 
-***
+---
 
 ### status
 
@@ -138,7 +138,7 @@ The device's state.
 
 `KeypadInterface.status`
 
-***
+---
 
 ### type
 
@@ -176,7 +176,7 @@ The payload attached to the event.
 
 `KeypadInterface.emit`
 
-***
+---
 
 ### off()
 
@@ -202,7 +202,7 @@ The listener to unbind.
 
 `KeypadInterface.off`
 
-***
+---
 
 ### on()
 
@@ -228,7 +228,7 @@ The listener to bind.
 
 `KeypadInterface.on`
 
-***
+---
 
 ### once()
 
@@ -254,7 +254,7 @@ The listener to bind.
 
 `KeypadInterface.once`
 
-***
+---
 
 ### set()
 
@@ -280,7 +280,7 @@ Desired device state.
 
 `KeypadInterface.set`
 
-***
+---
 
 ### update()
 

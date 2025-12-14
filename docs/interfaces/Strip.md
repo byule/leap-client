@@ -6,7 +6,7 @@ Defines a LED strip device.
 
 ## Extends
 
-- `Strip`
+-   `Strip`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `StripInterface.address`
 
-***
+---
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `StripInterface.area`
 
-***
+---
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
- \[`key`: `string`\]: `Capability`
+\[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `StripInterface.capabilities`
 
-***
+---
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `StripInterface.id`
 
-***
+---
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `StripInterface.log`
 
-***
+---
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `StripInterface.manufacturer`
 
-***
+---
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `StripInterface.name`
 
-***
+---
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `StripInterface.room`
 
-***
+---
 
 ### status
 
@@ -126,7 +126,7 @@ The device's state.
 
 `StripInterface.status`
 
-***
+---
 
 ### type
 
@@ -164,7 +164,7 @@ The payload attached to the event.
 
 `StripInterface.emit`
 
-***
+---
 
 ### off()
 
@@ -190,7 +190,7 @@ The listener to unbind.
 
 `StripInterface.off`
 
-***
+---
 
 ### on()
 
@@ -216,7 +216,7 @@ The listener to bind.
 
 `StripInterface.on`
 
-***
+---
 
 ### once()
 
@@ -242,7 +242,7 @@ The listener to bind.
 
 `StripInterface.once`
 
-***
+---
 
 ### set()
 
@@ -268,7 +268,7 @@ Desired device state.
 
 `StripInterface.set`
 
-***
+---
 
 ### update()
 

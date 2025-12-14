@@ -11,7 +11,7 @@ Establishes a connection to all paired devices.
 • **refresh?**: `boolean`
 
 (optional) Setting this to true will not load devices from
-               cache.
+cache.
 
 ## Returns
 

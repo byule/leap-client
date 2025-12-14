@@ -6,7 +6,7 @@ Defines a LED strip's current status response.
 
 ## Extends
 
-- `DeviceState`
+-   `DeviceState`
 
 ## Properties
 
@@ -16,7 +16,7 @@ Defines a LED strip's current status response.
 
 The LED strip's brightness level.
 
-***
+---
 
 ### luminance
 
@@ -24,7 +24,7 @@ The LED strip's brightness level.
 
 The LED's color temperature luminance.
 
-***
+---
 
 ### state
 

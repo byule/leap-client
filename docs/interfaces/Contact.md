@@ -6,7 +6,7 @@ Defines a CCO device.
 
 ## Extends
 
-- `Contact`
+-   `Contact`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `ContactInterface.address`
 
-***
+---
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `ContactInterface.area`
 
-***
+---
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
- \[`key`: `string`\]: `Capability`
+\[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `ContactInterface.capabilities`
 
-***
+---
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `ContactInterface.id`
 
-***
+---
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `ContactInterface.log`
 
-***
+---
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `ContactInterface.manufacturer`
 
-***
+---
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `ContactInterface.name`
 
-***
+---
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `ContactInterface.room`
 
-***
+---
 
 ### status
 
@@ -126,7 +126,7 @@ The device's state.
 
 `ContactInterface.status`
 
-***
+---
 
 ### type
 
@@ -164,7 +164,7 @@ The payload attached to the event.
 
 `ContactInterface.emit`
 
-***
+---
 
 ### off()
 
@@ -190,7 +190,7 @@ The listener to unbind.
 
 `ContactInterface.off`
 
-***
+---
 
 ### on()
 
@@ -216,7 +216,7 @@ The listener to bind.
 
 `ContactInterface.on`
 
-***
+---
 
 ### once()
 
@@ -242,7 +242,7 @@ The listener to bind.
 
 `ContactInterface.once`
 
-***
+---
 
 ### set()
 
@@ -268,7 +268,7 @@ Desired device state.
 
 `ContactInterface.set`
 
-***
+---
 
 ### update()
 

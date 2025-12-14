@@ -1,0 +1,1 @@
+{"version":3,"file":"DeviceHeard.d.ts","sourceRoot":"","sources":["../../src/Response/DeviceHeard.ts"],"names":[],"mappings":"AAAA;;;GAGG;AACH,MAAM,MAAM,WAAW,GAAG;IACtB;;OAEG;IACH,kBAAkB,EAAE,iBAAiB,GAAG,6BAA6B,GAAG,SAAS,CAAC;IAElF;;OAEG;IACH,YAAY,EAAE,MAAM,CAAC;IAErB;;OAEG;IACH,UAAU,EAAE,MAAM,CAAC;IAEnB;;OAEG;IACH,WAAW,EAAE,MAAM,CAAC;CACvB,CAAC"}

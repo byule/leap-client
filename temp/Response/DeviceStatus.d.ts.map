@@ -1,0 +1,1 @@
+{"version":3,"file":"DeviceStatus.d.ts","sourceRoot":"","sources":["../../src/Response/DeviceStatus.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AACpC,OAAO,EAAE,WAAW,EAAE,MAAM,eAAe,CAAC;AAE5C;;;GAGG;AACH,MAAM,MAAM,YAAY,GAAG,OAAO,GAAG;IACjC;;OAEG;IACH,WAAW,EAAE,WAAW,CAAC;CAC5B,CAAC"}

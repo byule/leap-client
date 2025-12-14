@@ -1,0 +1,1 @@
+{"version":3,"file":"AreaStatus.d.ts","sourceRoot":"","sources":["../../src/Response/AreaStatus.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AAEpC;;;GAGG;AACH,MAAM,MAAM,UAAU,GAAG,OAAO,GAAG;IAC/B;;OAEG;IACH,KAAK,EAAE,MAAM,CAAC;IAEd;;OAEG;IACH,eAAe,EAAE,MAAM,CAAC;IAExB;;OAEG;IACH,YAAY,EAAE,OAAO,CAAC;CACzB,CAAC"}

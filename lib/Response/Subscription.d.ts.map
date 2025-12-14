@@ -1,0 +1,1 @@
+{"version":3,"file":"Subscription.d.ts","sourceRoot":"","sources":["../../src/Response/Subscription.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;AAEtC;;;GAGG;AACH,MAAM,WAAW,YAAY;IACzB;;OAEG;IACH,GAAG,EAAE,MAAM,CAAC;IAEZ;;;;OAIG;IACH,QAAQ,EAAE,CAAC,QAAQ,EAAE,GAAG,KAAK,IAAI,CAAC;IAElC;;;;OAIG;IACH,QAAQ,EAAE,CAAC,QAAQ,EAAE,QAAQ,KAAK,IAAI,CAAC;CAC1C"}

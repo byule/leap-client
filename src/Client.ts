@@ -115,7 +115,10 @@ export class Client extends EventEmitter<{
                 .zones(area)
                 .then((zones) => {
                     for (const zone of zones) {
-                        const device = createDevice(processor, area, zone)
+                        const device = createDevice(processor, area, {
+                            ...zone,
+                            Name: `${area.Name} ${zone.Name}`,
+                        })
                             .on("Update", this.onDeviceUpdate)
                             .on("Action", this.onDeviceAction);
 

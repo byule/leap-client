@@ -97,10 +97,21 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                     .subscribe<ButtonStatus>(
                                         { href: `${button.href}/status/event` },
                                         (status: ButtonStatus): void => {
+                                            const action = status.ButtonEvent.EventType;
                                             console.error(
-                                                `[ADVANCEDTOGGLE] ${button.Name.replace(/\n/g, " ")} received: ${status.ButtonEvent.EventType}`,
+                                                `[ADVANCEDTOGGLE] ${button.Name.replace(/\n/g, " ")} received: ${action}`,
                                             );
-                                            this.triggers.get(button.href)!.update(status);
+
+                                            // Some buttons only send Release events, handle them directly
+                                            if (action === "Release") {
+                                                // Check if this is a Release-only button by seeing if we have a recent Press
+                                                // If TriggerController doesn't have state, emit Press+Release directly
+                                                this.emit("Action", this, definition, "Press");
+                                                setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
+                                            } else {
+                                                // Normal Press events go through TriggerController for timing
+                                                this.triggers.get(button.href)!.update(status);
+                                            }
                                         },
                                     )
                                     .catch((error: Error) => this.log.error(Colors.red(error.message)));

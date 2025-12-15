@@ -1,1 +1,0 @@
-{"version":3,"file":"ResponseHeader.d.ts","sourceRoot":"","sources":["../../src/Response/ResponseHeader.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,eAAe,CAAC;AAC5C,OAAO,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AAElD;;;GAGG;AACH,qBAAa,cAAc;IAChB,UAAU,CAAC,EAAE,cAAc,CAAC;IAC5B,GAAG,CAAC,EAAE,MAAM,CAAC;IACb,eAAe,CAAC,EAAE,WAAW,CAAC;IAC9B,SAAS,CAAC,EAAE,MAAM,CAAC;CAC7B"}

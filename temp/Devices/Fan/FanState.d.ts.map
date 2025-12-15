@@ -1,1 +1,0 @@
-{"version":3,"file":"FanState.d.ts","sourceRoot":"","sources":["../../../src/Devices/Fan/FanState.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,qBAAqB,CAAC;AAElD;;;GAGG;AACH,MAAM,WAAW,QAAS,SAAQ,WAAW;IACzC;;OAEG;IACH,KAAK,EAAE,IAAI,GAAG,KAAK,CAAC;IAEpB;;OAEG;IACH,KAAK,EAAE,MAAM,CAAC;CACjB"}

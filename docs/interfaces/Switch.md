@@ -6,7 +6,7 @@ Defines a on/off switch device.
 
 ## Extends
 
--   `Switch`
+- `Switch`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `SwitchInterface.address`
 
----
+***
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `SwitchInterface.area`
 
----
+***
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
-\[`key`: `string`\]: `Capability`
+ \[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `SwitchInterface.capabilities`
 
----
+***
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `SwitchInterface.id`
 
----
+***
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `SwitchInterface.log`
 
----
+***
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `SwitchInterface.manufacturer`
 
----
+***
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `SwitchInterface.name`
 
----
+***
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `SwitchInterface.room`
 
----
+***
 
 ### status
 
@@ -126,7 +126,7 @@ The device's state.
 
 `SwitchInterface.status`
 
----
+***
 
 ### type
 
@@ -164,7 +164,7 @@ The payload attached to the event.
 
 `SwitchInterface.emit`
 
----
+***
 
 ### off()
 
@@ -190,7 +190,7 @@ The listener to unbind.
 
 `SwitchInterface.off`
 
----
+***
 
 ### on()
 
@@ -216,7 +216,7 @@ The listener to bind.
 
 `SwitchInterface.on`
 
----
+***
 
 ### once()
 
@@ -242,7 +242,7 @@ The listener to bind.
 
 `SwitchInterface.once`
 
----
+***
 
 ### set()
 
@@ -268,7 +268,7 @@ Desired device state.
 
 `SwitchInterface.set`
 
----
+***
 
 ### update()
 

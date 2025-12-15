@@ -1,6 +1,0 @@
-/**
- * Defines the available message types.
- * @private
- */
-export type MessageType = "OneProjectDefinition" | "OnePresetDefinition" | "OneAreaSceneDefinition" | "OneLinkDefinition" | "OneLinkNodeDefinition" | "MultipleLinkNodeDefinition" | "MultipleLinkDefinition" | "OneControlStationDefinition" | "MultipleControlStationDefinition" | "OneAreaDefinition" | "MultipleAreaDefinition" | "OneAreaStatus" | "MultipleAreaStatus" | "OneDeviceStatus" | "OneDeviceDefinition" | "MultipleDeviceDefinition" | "OneZoneDefinition" | "MultipleZoneDefinition" | "OneZoneStatus" | "MultipleZoneStatus" | "OnePingResponse" | "OneButtonGroupDefinition" | "MultipleButtonGroupDefinition" | "MultipleButtonGroupExpandedDefinition" | "OneButtonDefinition" | "OneButtonStatusEvent" | "MultipleOccupancyGroupStatus" | "OneOccupancyGroupDefinition" | "OneClientSettingDefinition" | "MultipleVirtualButtonDefinition" | "OneVirtualButtonDefinition" | "OneProgrammingModelDefinition" | "OnePresetAssignmentDefinition" | "OneDimmedLevelAssignmentDefinition" | "OneFanSpeedAssignmentDefinition" | "OneTiltAssignmentDefinition" | "OneTimeclockStatus" | "MultipleTimeclockStatus" | "ExceptionDetail";
-//# sourceMappingURL=MessageType.d.ts.map

@@ -6,7 +6,7 @@ Defines a window shade device.
 
 ## Extends
 
--   `Shade`
+- `Shade`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `ShadeInterface.address`
 
----
+***
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `ShadeInterface.area`
 
----
+***
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
-\[`key`: `string`\]: `Capability`
+ \[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `ShadeInterface.capabilities`
 
----
+***
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `ShadeInterface.id`
 
----
+***
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `ShadeInterface.log`
 
----
+***
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `ShadeInterface.manufacturer`
 
----
+***
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `ShadeInterface.name`
 
----
+***
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `ShadeInterface.room`
 
----
+***
 
 ### status
 
@@ -126,7 +126,7 @@ The device's state.
 
 `ShadeInterface.status`
 
----
+***
 
 ### type
 
@@ -164,7 +164,7 @@ The payload attached to the event.
 
 `ShadeInterface.emit`
 
----
+***
 
 ### off()
 
@@ -190,7 +190,7 @@ The listener to unbind.
 
 `ShadeInterface.off`
 
----
+***
 
 ### on()
 
@@ -216,7 +216,7 @@ The listener to bind.
 
 `ShadeInterface.on`
 
----
+***
 
 ### once()
 
@@ -242,7 +242,7 @@ The listener to bind.
 
 `ShadeInterface.once`
 
----
+***
 
 ### set()
 
@@ -268,7 +268,7 @@ Desired device state.
 
 `ShadeInterface.set`
 
----
+***
 
 ### update()
 

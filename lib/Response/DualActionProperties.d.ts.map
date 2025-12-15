@@ -1,1 +1,0 @@
-{"version":3,"file":"DualActionProperties.d.ts","sourceRoot":"","sources":["../../src/Response/DualActionProperties.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AAEpC;;;GAGG;AACH,MAAM,MAAM,oBAAoB,GAAG;IAC/B;;OAEG;IACH,WAAW,EAAE,OAAO,CAAC;IAErB;;OAEG;IACH,aAAa,EAAE,OAAO,CAAC;CAC1B,CAAC"}

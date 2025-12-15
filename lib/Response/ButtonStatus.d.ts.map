@@ -1,1 +1,0 @@
-{"version":3,"file":"ButtonStatus.d.ts","sourceRoot":"","sources":["../../src/Response/ButtonStatus.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AAEpC;;;GAGG;AACH,MAAM,MAAM,YAAY,GAAG,OAAO,GAAG;IACjC;;OAEG;IACH,MAAM,EAAE,OAAO,CAAC;IAEhB;;OAEG;IACH,WAAW,EAAE;QAAE,SAAS,EAAE,OAAO,GAAG,SAAS,GAAG,UAAU,CAAA;KAAE,CAAC;CAChE,CAAC"}

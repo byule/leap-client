@@ -6,7 +6,7 @@ Defines a dimmer's current status response.
 
 ## Extends
 
--   `DeviceState`
+- `DeviceState`
 
 ## Properties
 
@@ -16,7 +16,7 @@ Defines a dimmer's current status response.
 
 The dimmer's brightness level.
 
----
+***
 
 ### state
 

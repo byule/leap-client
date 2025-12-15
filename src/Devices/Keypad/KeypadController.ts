@@ -70,6 +70,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                 });
 
                                 trigger.on("Press", (button): void => {
+                                    this.log.info(Colors.yellow(`Emitting Action: ${definition.name} - Press`));
                                     this.emit("Action", this, definition, "Press");
                                     setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
                                 });
@@ -89,7 +90,14 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                 this.processor
                                     .subscribe<ButtonStatus>(
                                         { href: `${button.href}/status/event` },
-                                        (status: ButtonStatus): void => this.triggers.get(button.href)!.update(status),
+                                        (status: ButtonStatus): void => {
+                                            this.log.info(
+                                                Colors.green(
+                                                    `Keypad button event: ${button.Name} - ${status.ButtonEvent.EventType}`,
+                                                ),
+                                            );
+                                            this.triggers.get(button.href)!.update(status);
+                                        },
                                     )
                                     .catch((error: Error) => this.log.error(Colors.red(error.message)));
                             } else {
@@ -102,6 +110,11 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                         { href: `${button.href}/status/event` },
                                         (status: ButtonStatus): void => {
                                             const action = status.ButtonEvent.EventType;
+                                            this.log.info(
+                                                Colors.green(
+                                                    `Keypad button event (SingleAction): ${button.Name} - ${action}`,
+                                                ),
+                                            );
 
                                             if (action !== "Press") return;
 
@@ -116,6 +129,11 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
 
                                             // Double press detected (within 500ms)
                                             if (timeSinceLastPress < 500 && lastPressTime > 0) {
+                                                this.log.info(
+                                                    Colors.yellow(
+                                                        `Emitting Action (SingleAction): ${definition.name} - DoublePress`,
+                                                    ),
+                                                );
                                                 this.emit("Action", this, definition, "DoublePress");
                                                 setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
                                                 lastPressTime = 0; // Reset
@@ -123,8 +141,16 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                                 // Potential single press - wait to see if another press comes
                                                 lastPressTime = now;
                                                 pressTimeout = setTimeout(() => {
+                                                    this.log.info(
+                                                        Colors.yellow(
+                                                            `Emitting Action (SingleAction): ${definition.name} - Press`,
+                                                        ),
+                                                    );
                                                     this.emit("Action", this, definition, "Press");
-                                                    setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
+                                                    setTimeout(
+                                                        () => this.emit("Action", this, definition, "Release"),
+                                                        100,
+                                                    );
                                                     pressTimeout = null;
                                                 }, 500);
                                             }

@@ -6,7 +6,7 @@ Creates an object that represents a single location, with a single network.
 
 ## Extends
 
--   `EventEmitter`\<`object`\>
+- `EventEmitter`\<`object`\>
 
 ## Constructors
 
@@ -69,7 +69,7 @@ Closes all connections for a location and stops searching.
 
 `void`
 
----
+***
 
 ### emit()
 
@@ -88,7 +88,7 @@ eventEmitter.emit("Response", {
 
 #### Type Parameters
 
-• **EVENT** _extends_ `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
+• **EVENT** *extends* `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
 
 #### Parameters
 
@@ -110,7 +110,7 @@ Returns `true` if the event had listeners, `false` otherwise.
 
 `EventEmitter.emit`
 
----
+***
 
 ### events()
 
@@ -129,7 +129,7 @@ Returns an array of events names.
 
 `EventEmitter.events`
 
----
+***
 
 ### listeners()
 
@@ -139,7 +139,7 @@ Returns a copy of the array of listeners for the `event`.
 
 #### Type Parameters
 
-• **EVENT** _extends_ `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
+• **EVENT** *extends* `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
 
 #### Parameters
 
@@ -157,7 +157,7 @@ Returns a copy of the array of listeners.
 
 `EventEmitter.listeners`
 
----
+***
 
 ### off()
 
@@ -173,7 +173,7 @@ component or module (e.g. sockets or file streams).
 ```js
 const printResponse = (payload) => {
     console.log(payload.Body);
-};
+}
 
 eventEmitter.on("Response", printResponse);
 eventEmitter.off("Response", printResponse);
@@ -181,7 +181,7 @@ eventEmitter.off("Response", printResponse);
 
 #### Type Parameters
 
-• **EVENT** _extends_ `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
+• **EVENT** *extends* `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
 
 #### Parameters
 
@@ -192,20 +192,20 @@ eventEmitter.off("Response", printResponse);
 • **listener?**: `object`\[`EVENT`\]
 
 (optional) The callback function. Default will remove
-all listeners for the event.
+                all listeners for the event.
 
 #### Returns
 
 `this`
 
 Returns a reference to the `EventEmitter`, so that calls can be
-chained.
+         chained.
 
 #### Inherited from
 
 `EventEmitter.off`
 
----
+***
 
 ### on()
 
@@ -225,7 +225,7 @@ eventEmitter.on("Response", (payload) => {
 
 #### Type Parameters
 
-• **EVENT** _extends_ `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
+• **EVENT** *extends* `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
 
 #### Parameters
 
@@ -240,20 +240,20 @@ The callback function.
 • **prepend?**: `boolean`
 
 (optional) Add the callback to the begining of the call
-stack.
+               stack.
 
 #### Returns
 
 `this`
 
 Returns a reference to the `EventEmitter`, so that calls can be
-chained.
+         chained.
 
 #### Inherited from
 
 `EventEmitter.on`
 
----
+***
 
 ### once()
 
@@ -271,7 +271,7 @@ eventEmitter.once("Response", (payload) => {
 
 #### Type Parameters
 
-• **EVENT** _extends_ `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
+• **EVENT** *extends* `"Available"` \| `"Message"` \| `"Action"` \| `"Update"`
 
 #### Parameters
 
@@ -286,20 +286,20 @@ The callback function.
 • **prepend?**: `boolean`
 
 (optional) Add the callback to the begining of the call
-stack.
+               stack.
 
 #### Returns
 
 `this`
 
 Returns a reference to the `EventEmitter`, so that calls can be
-chained.
+         chained.
 
 #### Inherited from
 
 `EventEmitter.once`
 
----
+***
 
 ### processor()
 

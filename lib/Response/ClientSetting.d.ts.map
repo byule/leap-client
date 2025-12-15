@@ -1,1 +1,0 @@
-{"version":3,"file":"ClientSetting.d.ts","sourceRoot":"","sources":["../../src/Response/ClientSetting.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AAEpC;;;GAGG;AACH,MAAM,MAAM,aAAa,GAAG,OAAO,GAAG;IAClC;;OAEG;IACH,kBAAkB,EAAE,MAAM,CAAC;IAE3B;;OAEG;IACH,kBAAkB,EAAE,MAAM,CAAC;IAE3B;;OAEG;IACH,WAAW,EAAE;QAAE,WAAW,EAAE,MAAM,CAAA;KAAE,CAAC;CACxC,CAAC"}

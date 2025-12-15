@@ -6,7 +6,7 @@ Defines a fan device.
 
 ## Extends
 
--   `Fan`
+- `Fan`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `FanInterface.address`
 
----
+***
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `FanInterface.area`
 
----
+***
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
-\[`key`: `string`\]: `Capability`
+ \[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `FanInterface.capabilities`
 
----
+***
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `FanInterface.id`
 
----
+***
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `FanInterface.log`
 
----
+***
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `FanInterface.manufacturer`
 
----
+***
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `FanInterface.name`
 
----
+***
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `FanInterface.room`
 
----
+***
 
 ### status
 
@@ -126,7 +126,7 @@ The device's state.
 
 `FanInterface.status`
 
----
+***
 
 ### type
 
@@ -164,7 +164,7 @@ The payload attached to the event.
 
 `FanInterface.emit`
 
----
+***
 
 ### off()
 
@@ -190,7 +190,7 @@ The listener to unbind.
 
 `FanInterface.off`
 
----
+***
 
 ### on()
 
@@ -216,7 +216,7 @@ The listener to bind.
 
 `FanInterface.on`
 
----
+***
 
 ### once()
 
@@ -242,7 +242,7 @@ The listener to bind.
 
 `FanInterface.once`
 
----
+***
 
 ### set()
 
@@ -268,7 +268,7 @@ Desired device state.
 
 `FanInterface.set`
 
----
+***
 
 ### update()
 

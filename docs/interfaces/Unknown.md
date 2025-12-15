@@ -6,7 +6,7 @@ Defines an unknown device.
 
 ## Extends
 
--   `Unknown`
+- `Unknown`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `UnknownInterface.address`
 
----
+***
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `UnknownInterface.area`
 
----
+***
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
-\[`key`: `string`\]: `Capability`
+ \[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `UnknownInterface.capabilities`
 
----
+***
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `UnknownInterface.id`
 
----
+***
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `UnknownInterface.log`
 
----
+***
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `UnknownInterface.manufacturer`
 
----
+***
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `UnknownInterface.name`
 
----
+***
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `UnknownInterface.room`
 
----
+***
 
 ### status
 
@@ -122,7 +122,7 @@ The current state of the device.
 
 `UnknownInterface.status`
 
----
+***
 
 ### type
 
@@ -160,7 +160,7 @@ The payload attached to the event.
 
 `UnknownInterface.emit`
 
----
+***
 
 ### off()
 
@@ -186,7 +186,7 @@ The listener to unbind.
 
 `UnknownInterface.off`
 
----
+***
 
 ### on()
 
@@ -212,7 +212,7 @@ The listener to bind.
 
 `UnknownInterface.on`
 
----
+***
 
 ### once()
 
@@ -238,7 +238,7 @@ The listener to bind.
 
 `UnknownInterface.once`
 
----
+***
 
 ### set()
 
@@ -258,7 +258,7 @@ Controls the device.
 
 `UnknownInterface.set`
 
----
+***
 
 ### update()
 

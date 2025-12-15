@@ -36,6 +36,8 @@ export function createDevice(processor: Processor, area: AreaAddress, definition
 
     const type = parseDeviceType(rawType);
 
+    console.error(`[CREATE_DEVICE] Device: ${deviceName}, ParsedType: ${type}`);
+
     switch (type) {
         case DeviceType.Contact:
             return new ContactController(processor, area, definition as ZoneAddress);

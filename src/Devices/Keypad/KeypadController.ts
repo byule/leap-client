@@ -43,9 +43,12 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
             device.DeviceType === "SunnataHybridKeypad" ||
             device.DeviceType === "PalladiomKeypad"
         ) {
+            this.log.info(Colors.cyan(`KeypadController: Initializing ${device.DeviceType} at ${this.address.href}`));
+
             this.processor
                 .buttons(this.address)
                 .then((groups) => {
+                    this.log.info(Colors.cyan(`KeypadController: Retrieved ${groups?.length || 0} button groups`));
                     for (let i = 0; i < groups?.length; i++) {
                         for (let j = 0; j < groups[i].Buttons?.length; j++) {
                             const button = groups[i].Buttons[j];
@@ -160,8 +163,13 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                             }
                         }
                     }
+
+                    this.log.info(Colors.green(`KeypadController: Successfully initialized ${this.buttons.length} buttons`));
                 })
-                .catch((error: Error) => this.log.error(Colors.red(error.message)));
+                .catch((error: Error) => {
+                    this.log.error(Colors.red(`KeypadController: Error fetching buttons for ${device.DeviceType}: ${error.message}`));
+                    this.log.error(Colors.red(error.stack || "No stack trace"));
+                });
         }
     }
 

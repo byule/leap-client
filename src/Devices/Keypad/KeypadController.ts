@@ -107,6 +107,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                         { href: `${button.href}/status/event` },
                                         (status: ButtonStatus): void => {
                                             const action = status.ButtonEvent.EventType;
+                                            console.error(`[SINGLEACTION] ${button.Name} received: ${action}`);
 
                                             if (action !== "Press") return;
 
@@ -128,6 +129,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                                 // Potential single press - wait to see if another press comes
                                                 lastPressTime = now;
                                                 pressTimeout = setTimeout(() => {
+                                                    console.error(`[SINGLEACTION] Emitting Press for ${definition.name}`);
                                                     this.emit("Action", this, definition, "Press");
                                                     setTimeout(
                                                         () => this.emit("Action", this, definition, "Release"),

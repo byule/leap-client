@@ -95,6 +95,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                     .subscribe<ButtonStatus>(
                                         { href: `${button.href}/status/event` },
                                         (status: ButtonStatus): void => {
+                                            console.error(`[ADVANCEDTOGGLE] ${button.Name} received: ${status.ButtonEvent.EventType}`);
                                             this.triggers.get(button.href)!.update(status);
                                         },
                                     )

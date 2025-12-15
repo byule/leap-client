@@ -444,6 +444,11 @@ export class Connection extends Parser<{
 
         if (subscription == null) return;
 
+        // Deep logging for button events
+        if (subscription.url.includes("/button/") && subscription.url.includes("/status/event")) {
+            console.error(`[PROCESSOR_RAW] URL: ${subscription.url}, Event: ${JSON.stringify(response.Body)}`);
+        }
+
         subscription.callback(response);
     };
 

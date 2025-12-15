@@ -6,7 +6,7 @@ Defines a CCO's current status response.
 
 ## Extends
 
-- `DeviceState`
+-   `DeviceState`
 
 ## Properties
 

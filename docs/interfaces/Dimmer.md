@@ -6,7 +6,7 @@ Defines a dimmable light device.
 
 ## Extends
 
-- `Dimmer`
+-   `Dimmer`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `DimmerInterface.address`
 
-***
+---
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `DimmerInterface.area`
 
-***
+---
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
- \[`key`: `string`\]: `Capability`
+\[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `DimmerInterface.capabilities`
 
-***
+---
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `DimmerInterface.id`
 
-***
+---
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `DimmerInterface.log`
 
-***
+---
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `DimmerInterface.manufacturer`
 
-***
+---
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `DimmerInterface.name`
 
-***
+---
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `DimmerInterface.room`
 
-***
+---
 
 ### status
 
@@ -126,7 +126,7 @@ The device's state.
 
 `DimmerInterface.status`
 
-***
+---
 
 ### type
 
@@ -164,7 +164,7 @@ The payload attached to the event.
 
 `DimmerInterface.emit`
 
-***
+---
 
 ### off()
 
@@ -190,7 +190,7 @@ The listener to unbind.
 
 `DimmerInterface.off`
 
-***
+---
 
 ### on()
 
@@ -216,7 +216,7 @@ The listener to bind.
 
 `DimmerInterface.on`
 
-***
+---
 
 ### once()
 
@@ -242,7 +242,7 @@ The listener to bind.
 
 `DimmerInterface.once`
 
-***
+---
 
 ### set()
 
@@ -268,7 +268,7 @@ Desired device state.
 
 `DimmerInterface.set`
 
-***
+---
 
 ### update()
 

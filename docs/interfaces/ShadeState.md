@@ -6,7 +6,7 @@ Defines a shade's current status response.
 
 ## Extends
 
-- `DeviceState`
+-   `DeviceState`
 
 ## Properties
 
@@ -16,7 +16,7 @@ Defines a shade's current status response.
 
 The shade's open level.
 
-***
+---
 
 ### state
 
@@ -28,7 +28,7 @@ Is the shade open or closed.
 
 `DeviceState.state`
 
-***
+---
 
 ### tilt?
 

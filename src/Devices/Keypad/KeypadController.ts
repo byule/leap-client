@@ -65,7 +65,9 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
 
                             this.buttons.push(definition);
 
-                            console.error(`[KEYPAD_INIT] Button: "${definition.name}", Type: ${programmingType || 'undefined'}, Index: ${button.ButtonNumber}`);
+                            console.error(
+                                `[KEYPAD_INIT] Button: "${definition.name}", Type: ${programmingType || "undefined"}, Index: ${button.ButtonNumber}`,
+                            );
 
                             // Check if button supports Press+Release (AdvancedToggle) or Press-only (SingleAction)
                             if (programmingType === "AdvancedToggleProgrammingModel") {
@@ -95,7 +97,9 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                     .subscribe<ButtonStatus>(
                                         { href: `${button.href}/status/event` },
                                         (status: ButtonStatus): void => {
-                                            console.error(`[ADVANCEDTOGGLE] ${button.Name} received: ${status.ButtonEvent.EventType}`);
+                                            console.error(
+                                                `[ADVANCEDTOGGLE] ${button.Name} received: ${status.ButtonEvent.EventType}`,
+                                            );
                                             this.triggers.get(button.href)!.update(status);
                                         },
                                     )
@@ -136,7 +140,9 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                                 // Potential single press - wait to see if another press comes
                                                 lastPressTime = now;
                                                 pressTimeout = setTimeout(() => {
-                                                    console.error(`[SINGLEACTION] Emitting Press for ${definition.name}`);
+                                                    console.error(
+                                                        `[SINGLEACTION] Emitting Press for ${definition.name}`,
+                                                    );
                                                     this.emit("Action", this, definition, "Press");
                                                     setTimeout(
                                                         () => this.emit("Action", this, definition, "Release"),
@@ -152,10 +158,16 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                         }
                     }
 
-                    this.log.info(Colors.green(`KeypadController: Successfully initialized ${this.buttons.length} buttons`));
+                    this.log.info(
+                        Colors.green(`KeypadController: Successfully initialized ${this.buttons.length} buttons`),
+                    );
                 })
                 .catch((error: Error) => {
-                    this.log.error(Colors.red(`KeypadController: Error fetching buttons for ${device.DeviceType}: ${error.message}`));
+                    this.log.error(
+                        Colors.red(
+                            `KeypadController: Error fetching buttons for ${device.DeviceType}: ${error.message}`,
+                        ),
+                    );
                     this.log.error(Colors.red(error.stack || "No stack trace"));
                 });
         }

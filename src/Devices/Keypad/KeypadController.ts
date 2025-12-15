@@ -68,6 +68,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                             console.error(
                                 `[KEYPAD_INIT] Button: "${definition.name.replace(/\n/g, " ")}", Type: ${programmingType || "undefined"}, Index: ${button.ButtonNumber}`,
                             );
+                            console.error(`[KEYPAD_INIT] Full button object:`, JSON.stringify(button, null, 2));
 
                             // Check if button supports Press+Release (AdvancedToggle) or Press-only (SingleAction)
                             if (programmingType === "AdvancedToggleProgrammingModel") {

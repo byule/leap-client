@@ -109,7 +109,11 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                             const action = status.ButtonEvent.EventType;
                                             console.error(`[SINGLEACTION] ${button.Name} received: ${action}`);
 
-                                            if (action !== "Press") return;
+                                            // Some buttons only send Release events, treat Release as Press for SingleAction
+                                            if (action !== "Press" && action !== "Release") return;
+
+                                            // Normalize to Press for processing
+                                            const normalizedAction = "Press";
 
                                             const now = Date.now();
                                             const timeSinceLastPress = now - lastPressTime;

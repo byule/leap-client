@@ -66,7 +66,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                             this.buttons.push(definition);
 
                             console.error(
-                                `[KEYPAD_INIT] Button: "${definition.name}", Type: ${programmingType || "undefined"}, Index: ${button.ButtonNumber}`,
+                                `[KEYPAD_INIT] Button: "${definition.name.replace(/\n/g, " ")}", Type: ${programmingType || "undefined"}, Index: ${button.ButtonNumber}`,
                             );
 
                             // Check if button supports Press+Release (AdvancedToggle) or Press-only (SingleAction)
@@ -98,7 +98,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                         { href: `${button.href}/status/event` },
                                         (status: ButtonStatus): void => {
                                             console.error(
-                                                `[ADVANCEDTOGGLE] ${button.Name} received: ${status.ButtonEvent.EventType}`,
+                                                `[ADVANCEDTOGGLE] ${button.Name.replace(/\n/g, " ")} received: ${status.ButtonEvent.EventType}`,
                                             );
                                             this.triggers.get(button.href)!.update(status);
                                         },
@@ -114,7 +114,9 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                         { href: `${button.href}/status/event` },
                                         (status: ButtonStatus): void => {
                                             const action = status.ButtonEvent.EventType;
-                                            console.error(`[SINGLEACTION] ${button.Name} received: ${action}`);
+                                            console.error(
+                                                `[SINGLEACTION] ${button.Name.replace(/\n/g, " ")} received: ${action}`,
+                                            );
 
                                             // Some buttons only send Release events, treat Release as Press for SingleAction
                                             if (action !== "Press" && action !== "Release") return;
@@ -141,7 +143,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                                                 lastPressTime = now;
                                                 pressTimeout = setTimeout(() => {
                                                     console.error(
-                                                        `[SINGLEACTION] Emitting Press for ${definition.name}`,
+                                                        `[SINGLEACTION] Emitting Press for ${definition.name.replace(/\n/g, " ")}`,
                                                     );
                                                     this.emit("Action", this, definition, "Press");
                                                     setTimeout(

@@ -29,14 +29,7 @@ import { ZoneAddress } from "../Response/ZoneAddress";
  * @private
  */
 export function createDevice(processor: Processor, area: AreaAddress, definition: unknown): Device {
-    const rawType = (definition as ZoneAddress).ControlType || (definition as DeviceAddress).DeviceType;
-    const deviceName = (definition as any).Name || "Unknown";
-
-    console.error(`[CREATE_DEVICE] Device: ${deviceName}, RawType: ${rawType}`);
-
-    const type = parseDeviceType(rawType);
-
-    console.error(`[CREATE_DEVICE] Device: ${deviceName}, ParsedType: ${type}`);
+    const type = parseDeviceType((definition as ZoneAddress).ControlType || (definition as DeviceAddress).DeviceType);
 
     switch (type) {
         case DeviceType.Contact:

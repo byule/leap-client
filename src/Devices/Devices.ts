@@ -32,7 +32,7 @@ export function createDevice(processor: Processor, area: AreaAddress, definition
     const rawType = (definition as ZoneAddress).ControlType || (definition as DeviceAddress).DeviceType;
     const deviceName = (definition as any).Name || "Unknown";
 
-    processor.log.info(`[CREATE_DEVICE] Device: ${deviceName}, RawType: ${rawType}`);
+    console.error(`[CREATE_DEVICE] Device: ${deviceName}, RawType: ${rawType}`);
 
     const type = parseDeviceType(rawType);
 

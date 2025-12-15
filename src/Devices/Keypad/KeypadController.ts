@@ -3,14 +3,13 @@ import Colors from "colors";
 import { Button, DeviceType } from "@mkellsy/hap-device";
 
 import { AreaAddress } from "../../Response/AreaAddress";
+import { ButtonAddress } from "../../Response/ButtonAddress";
 import { ButtonStatus } from "../../Response/ButtonStatus";
 import { Common } from "../Common";
 import { DeviceAddress } from "../../Response/DeviceAddress";
 import { Keypad } from "./Keypad";
 import { KeypadState } from "./KeypadState";
 import { Processor } from "../Processor/Processor";
-import { Trigger } from "../Remote/Trigger";
-import { TriggerController } from "../Remote/TriggerController";
 
 /**
  * Defines a keypad device.
@@ -18,8 +17,6 @@ import { TriggerController } from "../Remote/TriggerController";
  */
 export class KeypadController extends Common<KeypadState> implements Keypad {
     public readonly buttons: Button[] = [];
-
-    private triggers: Map<string, Trigger> = new Map();
 
     /**
      * Creates a keypad device.
@@ -43,12 +40,17 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
             device.DeviceType === "SunnataHybridKeypad" ||
             device.DeviceType === "PalladiomKeypad"
         ) {
-            this.log.info(Colors.cyan(`KeypadController: Initializing ${device.DeviceType} at ${this.address.href}`));
+            this.log.info(
+                Colors.cyan(
+                    `KeypadController: Initializing ${device.DeviceType} at ${this.address.href} in HARDWARE mode (raw events)`,
+                ),
+            );
 
             this.processor
                 .buttons(this.address)
                 .then((groups) => {
                     this.log.info(Colors.cyan(`KeypadController: Retrieved ${groups?.length || 0} button groups`));
+
                     for (let i = 0; i < groups?.length; i++) {
                         for (let j = 0; j < groups[i].Buttons?.length; j++) {
                             const button = groups[i].Buttons[j];
@@ -66,114 +68,18 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                             this.buttons.push(definition);
 
                             console.error(
-                                `[KEYPAD_INIT] Button: "${definition.name.replace(/\n/g, " ")}", Type: ${programmingType || "undefined"}, Index: ${button.ButtonNumber}`,
+                                `[KEYPAD_INIT] Button: "${definition.name}", Type: ${programmingType || "undefined"}, Index: ${button.ButtonNumber}`,
                             );
-                            console.error(`[KEYPAD_INIT] Full button object:`, JSON.stringify(button, null, 2));
 
-                            // Check if button supports Press+Release (AdvancedToggle) or Press-only (SingleAction)
-                            if (programmingType === "AdvancedToggleProgrammingModel") {
-                                // Use TriggerController for full Press/Release/DoublePress/LongPress support
-                                const trigger = new TriggerController(this.processor, button, button.ButtonNumber, {
-                                    raiseLower: false,
-                                });
-
-                                trigger.on("Press", (button): void => {
-                                    this.emit("Action", this, definition, "Press");
-                                    setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
-                                });
-
-                                trigger.on("DoublePress", (button): void => {
-                                    this.emit("Action", this, definition, "DoublePress");
-                                    setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
-                                });
-
-                                trigger.on("LongPress", (button): void => {
-                                    this.emit("Action", this, definition, "LongPress");
-                                    setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
-                                });
-
-                                this.triggers.set(button.href, trigger);
-
-                                this.processor
-                                    .subscribe<ButtonStatus>(
-                                        { href: `${button.href}/status/event` },
-                                        (status: ButtonStatus): void => {
-                                            const action = status.ButtonEvent.EventType;
-                                            console.error(
-                                                `[ADVANCEDTOGGLE] ${button.Name.replace(/\n/g, " ")} received: ${action}`,
-                                            );
-
-                                            // Some buttons only send Release events, handle them directly
-                                            if (action === "Release") {
-                                                // Check if this is a Release-only button by seeing if we have a recent Press
-                                                // If TriggerController doesn't have state, emit Press+Release directly
-                                                this.emit("Action", this, definition, "Press");
-                                                setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
-                                            } else {
-                                                // Normal Press events go through TriggerController for timing
-                                                this.triggers.get(button.href)!.update(status);
-                                            }
-                                        },
-                                    )
-                                    .catch((error: Error) => this.log.error(Colors.red(error.message)));
-                            } else {
-                                // Press-only button (SingleAction) - support single and double press
-                                let lastPressTime = 0;
-                                let pressTimeout: NodeJS.Timeout | null = null;
-
-                                this.processor
-                                    .subscribe<ButtonStatus>(
-                                        { href: `${button.href}/status/event` },
-                                        (status: ButtonStatus): void => {
-                                            const action = status.ButtonEvent.EventType;
-                                            console.error(
-                                                `[SINGLEACTION] ${button.Name.replace(/\n/g, " ")} received: ${action}`,
-                                            );
-
-                                            // Some buttons only send Release events, treat Release as Press for SingleAction
-                                            if (action !== "Press" && action !== "Release") return;
-
-                                            // Normalize to Press for processing
-                                            const normalizedAction = "Press";
-
-                                            const now = Date.now();
-                                            const timeSinceLastPress = now - lastPressTime;
-
-                                            // Clear any pending single press
-                                            if (pressTimeout) {
-                                                clearTimeout(pressTimeout);
-                                                pressTimeout = null;
-                                            }
-
-                                            // Double press detected (within 500ms)
-                                            if (timeSinceLastPress < 500 && lastPressTime > 0) {
-                                                this.emit("Action", this, definition, "DoublePress");
-                                                setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
-                                                lastPressTime = 0; // Reset
-                                            } else {
-                                                // Potential single press - wait to see if another press comes
-                                                lastPressTime = now;
-                                                pressTimeout = setTimeout(() => {
-                                                    console.error(
-                                                        `[SINGLEACTION] Emitting Press for ${definition.name.replace(/\n/g, " ")}`,
-                                                    );
-                                                    this.emit("Action", this, definition, "Press");
-                                                    setTimeout(
-                                                        () => this.emit("Action", this, definition, "Release"),
-                                                        100,
-                                                    );
-                                                    pressTimeout = null;
-                                                }, 500);
-                                            }
-                                        },
-                                    )
-                                    .catch((error: Error) => this.log.error(Colors.red(error.message)));
-                            }
+                            // Hardware mode: Pass through raw events from Lutron
+                            this.setupHardwareButton(button, definition);
                         }
                     }
 
                     this.log.info(
-                        Colors.green(`KeypadController: Successfully initialized ${this.buttons.length} buttons`),
+                        Colors.green(
+                            `KeypadController: Successfully initialized ${this.buttons.length} buttons in HARDWARE mode`,
+                        ),
                     );
                 })
                 .catch((error: Error) => {
@@ -185,6 +91,27 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                     this.log.error(Colors.red(error.stack || "No stack trace"));
                 });
         }
+    }
+
+    /**
+     * Setup a button in hardware mode - pass through raw events from Lutron.
+     * This is the simplest path with no timing detection or event simulation.
+     * Events like Press, Release, LongHold are passed directly to HomeKit.
+     */
+    private setupHardwareButton(button: ButtonAddress, definition: Button): void {
+        console.error(`[HARDWARE_SETUP] Setting up hardware mode for button: ${definition.name}`);
+
+        this.processor
+            .subscribe<ButtonStatus>({ href: `${button.href}/status/event` }, (status: ButtonStatus): void => {
+                const action = status.ButtonEvent.EventType;
+                console.error(`[HARDWARE_EVENT] ${button.Name.replace(/\n/g, " ")} received: ${action}`);
+
+                // Pass through raw events: Press, Release, LongHold, etc.
+                // No simulation, no timing detection - just forward what Lutron sends
+                // Cast to Action since Lutron sends events that aren't in the Action type (like LongHold)
+                this.emit("Action", this, definition, action as any);
+            })
+            .catch((error: Error) => this.log.error(Colors.red(error.message)));
     }
 
     /**

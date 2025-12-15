@@ -58,7 +58,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                             const definition: Button = {
                                 id,
                                 index: button.ButtonNumber,
-                                name: (button.Engraving || {}).Text || button.Name,
+                                name: ((button.Engraving || {}).Text || button.Name).replace(/\n/g, " "),
                                 led: button.AssociatedLED,
                                 supportsLongPress: programmingType === "AdvancedToggleProgrammingModel",
                             } as Button;

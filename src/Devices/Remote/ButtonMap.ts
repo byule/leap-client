@@ -81,13 +81,4 @@ export const ButtonMap = new Map<string, Map<number, (number | boolean)[]>>([
             [4, [4, false]],
         ]),
     ],
-    [
-        "PalladiomKeypad",
-        new Map([
-            [1, [1, false]],
-            [2, [2, false]],
-            [3, [3, false]],
-            [4, [4, false]],
-        ]),
-    ],
 ]);

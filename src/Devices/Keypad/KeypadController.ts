@@ -9,6 +9,8 @@ import { DeviceAddress } from "../../Response/DeviceAddress";
 import { Keypad } from "./Keypad";
 import { KeypadState } from "./KeypadState";
 import { Processor } from "../Processor/Processor";
+import { Trigger } from "../Remote/Trigger";
+import { TriggerController } from "../Remote/TriggerController";
 
 /**
  * Defines a keypad device.
@@ -16,6 +18,8 @@ import { Processor } from "../Processor/Processor";
  */
 export class KeypadController extends Common<KeypadState> implements Keypad {
     public readonly buttons: Button[] = [];
+
+    private triggers: Map<string, Trigger> = new Map();
 
     /**
      * Creates a keypad device.
@@ -34,7 +38,11 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
             state: "Off",
         });
 
-        if (device.DeviceType === "SunnataKeypad" || device.DeviceType === "SunnataHybridKeypad") {
+        if (
+            device.DeviceType === "SunnataKeypad" ||
+            device.DeviceType === "SunnataHybridKeypad" ||
+            device.DeviceType === "PalladiomKeypad"
+        ) {
             this.processor
                 .buttons(this.address)
                 .then((groups) => {
@@ -42,6 +50,7 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
                         for (let j = 0; j < groups[i].Buttons?.length; j++) {
                             const button = groups[i].Buttons[j];
                             const id = `LEAP-${this.processor.id}-BUTTON-${button.href.split("/")[2]}`;
+                            const programmingType = button.ProgrammingModel?.ProgrammingModelType;
 
                             const definition: Button = {
                                 id,
@@ -52,20 +61,76 @@ export class KeypadController extends Common<KeypadState> implements Keypad {
 
                             this.buttons.push(definition);
 
-                            this.processor
-                                .subscribe<ButtonStatus>(
-                                    { href: `${button.href}/status/event` },
-                                    (status: ButtonStatus): void => {
-                                        const action = status.ButtonEvent.EventType;
+                            // Check if button supports Press+Release (AdvancedToggle) or Press-only (SingleAction)
+                            if (programmingType === "AdvancedToggleProgrammingModel") {
+                                // Use TriggerController for full Press/Release/DoublePress/LongPress support
+                                const trigger = new TriggerController(this.processor, button, button.ButtonNumber, {
+                                    raiseLower: false,
+                                });
 
-                                        if (action !== "Press") return;
+                                trigger.on("Press", (button): void => {
+                                    this.emit("Action", this, definition, "Press");
+                                    setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
+                                });
 
-                                        this.emit("Action", this, definition, "Press");
+                                trigger.on("DoublePress", (button): void => {
+                                    this.emit("Action", this, definition, "DoublePress");
+                                    setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
+                                });
 
-                                        setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
-                                    },
-                                )
-                                .catch((error: Error) => this.log.error(Colors.red(error.message)));
+                                trigger.on("LongPress", (button): void => {
+                                    this.emit("Action", this, definition, "LongPress");
+                                    setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
+                                });
+
+                                this.triggers.set(button.href, trigger);
+
+                                this.processor
+                                    .subscribe<ButtonStatus>(
+                                        { href: `${button.href}/status/event` },
+                                        (status: ButtonStatus): void => this.triggers.get(button.href)!.update(status),
+                                    )
+                                    .catch((error: Error) => this.log.error(Colors.red(error.message)));
+                            } else {
+                                // Press-only button (SingleAction) - support single and double press
+                                let lastPressTime = 0;
+                                let pressTimeout: NodeJS.Timeout | null = null;
+
+                                this.processor
+                                    .subscribe<ButtonStatus>(
+                                        { href: `${button.href}/status/event` },
+                                        (status: ButtonStatus): void => {
+                                            const action = status.ButtonEvent.EventType;
+
+                                            if (action !== "Press") return;
+
+                                            const now = Date.now();
+                                            const timeSinceLastPress = now - lastPressTime;
+
+                                            // Clear any pending single press
+                                            if (pressTimeout) {
+                                                clearTimeout(pressTimeout);
+                                                pressTimeout = null;
+                                            }
+
+                                            // Double press detected (within 500ms)
+                                            if (timeSinceLastPress < 500 && lastPressTime > 0) {
+                                                this.emit("Action", this, definition, "DoublePress");
+                                                setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
+                                                lastPressTime = 0; // Reset
+                                            } else {
+                                                // Potential single press - wait to see if another press comes
+                                                lastPressTime = now;
+                                                pressTimeout = setTimeout(() => {
+                                                    this.emit("Action", this, definition, "Press");
+                                                    setTimeout(() => this.emit("Action", this, definition, "Release"), 100);
+                                                    pressTimeout = null;
+                                                }, 500);
+                                            }
+                                        },
+                                    )
+                                    .catch((error: Error) => this.log.error(Colors.red(error.message)));
+                            }
                         }
                     }
                 })

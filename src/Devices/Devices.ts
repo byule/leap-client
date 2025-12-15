@@ -105,13 +105,13 @@ export function parseDeviceType(value: string): DeviceType {
         case "Pico3Button":
         case "Pico4Button":
         case "Pico3ButtonRaiseLower":
-        case "PalladiomKeypad":
             return DeviceType.Remote;
 
         case "SunnataDimmer":
         case "SunnataSwitch":
         case "SunnataKeypad":
         case "SunnataHybridKeypad":
+        case "PalladiomKeypad":
             return DeviceType.Keypad;
 
         case "RPSCeilingMountedOccupancySensor":
@@ -144,11 +144,11 @@ export function isAddressable(device: DeviceAddress): boolean {
         case "Pico3Button":
         case "Pico4Button":
         case "Pico3ButtonRaiseLower":
-        case "PalladiomKeypad":
             return true;
 
         case "SunnataKeypad":
         case "SunnataHybridKeypad":
+        case "PalladiomKeypad":
             return true;
 
         case "RPSCeilingMountedOccupancySensor":

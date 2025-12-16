@@ -6,7 +6,7 @@ Defines a switch's current status response.
 
 ## Extends
 
--   `DeviceState`
+- `DeviceState`
 
 ## Properties
 

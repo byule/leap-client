@@ -6,7 +6,7 @@ Defines a Pico remote device.
 
 ## Extends
 
--   `Remote`
+- `Remote`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `RemoteInterface.address`
 
----
+***
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `RemoteInterface.area`
 
----
+***
 
 ### buttons
 
@@ -44,7 +44,7 @@ The buttons available on the device.
 
 `RemoteInterface.buttons`
 
----
+***
 
 ### capabilities
 
@@ -55,13 +55,13 @@ or read.
 
 #### Index Signature
 
-\[`key`: `string`\]: `Capability`
+ \[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `RemoteInterface.capabilities`
 
----
+***
 
 ### id
 
@@ -73,7 +73,7 @@ The device's unique identifier.
 
 `RemoteInterface.id`
 
----
+***
 
 ### log
 
@@ -86,7 +86,7 @@ room and id.
 
 `RemoteInterface.log`
 
----
+***
 
 ### manufacturer
 
@@ -98,7 +98,7 @@ The device's manufacturer.
 
 `RemoteInterface.manufacturer`
 
----
+***
 
 ### name
 
@@ -110,7 +110,7 @@ The device's configured name.
 
 `RemoteInterface.name`
 
----
+***
 
 ### room
 
@@ -122,7 +122,7 @@ The device's configured room.
 
 `RemoteInterface.room`
 
----
+***
 
 ### status
 
@@ -134,7 +134,7 @@ The current state of the device.
 
 `RemoteInterface.status`
 
----
+***
 
 ### type
 
@@ -172,7 +172,21 @@ The payload attached to the event.
 
 `RemoteInterface.emit`
 
----
+***
+
+### initialize()
+
+> **initialize**(): `Promise`\<`void`\>
+
+Waits for async initialization to complete (button loading).
+
+#### Returns
+
+`Promise`\<`void`\>
+
+A promise that resolves when the device is fully initialized.
+
+***
 
 ### off()
 
@@ -198,7 +212,7 @@ The listener to unbind.
 
 `RemoteInterface.off`
 
----
+***
 
 ### on()
 
@@ -224,7 +238,7 @@ The listener to bind.
 
 `RemoteInterface.on`
 
----
+***
 
 ### once()
 
@@ -250,7 +264,7 @@ The listener to bind.
 
 `RemoteInterface.once`
 
----
+***
 
 ### set()
 
@@ -270,7 +284,7 @@ Controls the device.
 
 `RemoteInterface.set`
 
----
+***
 
 ### update()
 

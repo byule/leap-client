@@ -6,7 +6,7 @@ Defines a fan's current status response.
 
 ## Extends
 
--   `DeviceState`
+- `DeviceState`
 
 ## Properties
 
@@ -16,7 +16,7 @@ Defines a fan's current status response.
 
 The fan's speed setting.
 
----
+***
 
 ### state
 

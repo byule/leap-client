@@ -28,6 +28,7 @@ import { ProcessorController } from "./Devices/Processor/ProcessorController";
 import { ProcessorAddress } from "./Response/ProcessorAddress";
 
 import { createDevice, isAddressable, parseDeviceType } from "./Devices/Devices";
+import { LeapConfig } from "./Config";
 
 const log = getLogger("Client");
 
@@ -45,6 +46,7 @@ export class Client extends EventEmitter<{
 }> {
     private context: Context;
     private refresh: boolean;
+    private config: LeapConfig;
 
     private discovery: Discovery;
     private discovered: Map<string, Processor> = new Map();
@@ -59,13 +61,15 @@ export class Client extends EventEmitter<{
      * ```
      *
      * @param refresh If true, this will ignore any cache and reload.
+     * @param config Configuration for button behavior and other settings.
      */
-    constructor(refresh?: boolean) {
+    constructor(refresh?: boolean, config?: LeapConfig) {
         super(Infinity);
 
         this.context = new Context();
         this.discovery = new Discovery();
         this.refresh = refresh === true;
+        this.config = config || {};
 
         this.discovery.on("Discovered", this.onDiscovered).search();
     }
@@ -118,7 +122,7 @@ export class Client extends EventEmitter<{
                         const device = createDevice(processor, area, {
                             ...zone,
                             Name: `${area.Name} ${zone.Name}`,
-                        })
+                        }, this.config)
                             .on("Update", this.onDeviceUpdate)
                             .on("Action", this.onDeviceAction);
 
@@ -154,6 +158,7 @@ export class Client extends EventEmitter<{
                                 AssociatedOccupancyGroups: [],
                             },
                             { ...timeclock, ControlType: "Timeclock" },
+                            this.config,
                         ).on("Update", this.onDeviceUpdate);
 
                         processor.devices.set(timeclock.href, device);
@@ -174,30 +179,40 @@ export class Client extends EventEmitter<{
 
             processor
                 .controls(area)
-                .then((controls) => {
+                .then(async (controls) => {
                     for (const control of controls) {
-                        this.discoverPositions(processor, control).then((positions) => {
-                            for (const position of positions) {
-                                const type = parseDeviceType(position.DeviceType);
+                        const positions = await this.discoverPositions(processor, control);
 
-                                const address =
-                                    type === DeviceType.Occupancy
-                                        ? `/occupancy/${area.href?.split("/")[2]}`
-                                        : position.href;
+                        const initPromises: Promise<void>[] = [];
 
-                                const device = createDevice(processor, area, {
-                                    ...position,
-                                    Name: `${area.Name} ${control.Name} ${position.Name}`,
-                                })
-                                    .on("Update", this.onDeviceUpdate)
-                                    .on("Action", this.onDeviceAction);
+                        for (const position of positions) {
+                            const type = parseDeviceType(position.DeviceType);
 
-                                processor.devices.set(address, device);
+                            const address =
+                                type === DeviceType.Occupancy
+                                    ? `/occupancy/${area.href?.split("/")[2]}`
+                                    : position.href;
+
+                            const device = createDevice(processor, area, {
+                                ...position,
+                                Name: `${area.Name} ${control.Name} ${position.Name}`,
+                            }, this.config)
+                                .on("Update", this.onDeviceUpdate)
+                                .on("Action", this.onDeviceAction);
+
+                            processor.devices.set(address, device);
+
+                            // Wait for async initialization (keypads/remotes load buttons)
+                            if (type === DeviceType.Keypad || type === DeviceType.Remote) {
+                                initPromises.push((device as any).initialize());
                             }
+                        }
 
-                            resolve();
-                        });
+                        // Wait for all device initializations to complete
+                        await Promise.all(initPromises);
                     }
+
+                    resolve();
                 })
                 .catch(() => resolve());
         });

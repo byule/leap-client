@@ -13,6 +13,7 @@ import { Association } from "./Connection/Association";
 import { Context } from "./Connection/Context";
 import { Discovery } from "./Connection/Discovery";
 import { Client } from "./Client";
+import { LeapConfig } from "./Config";
 
 export { Contact } from "./Devices/Contact/Contact";
 export { ContactState } from "./Devices/Contact/ContactState";
@@ -40,12 +41,13 @@ export { Unknown } from "./Devices/Unknown/Unknown";
  *
  * @param refresh (optional) Setting this to true will not load devices from
  *                cache.
+ * @param config (optional) Configuration for button behavior and other settings.
  *
  * @returns A reference to the location with all processors.
  * @public
  */
-export function connect(refresh?: boolean): Client {
-    return new Client(refresh);
+export function connect(refresh?: boolean, config?: LeapConfig): Client {
+    return new Client(refresh, config);
 }
 
 /**

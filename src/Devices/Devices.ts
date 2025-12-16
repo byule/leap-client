@@ -16,6 +16,7 @@ import { TimeclockController } from "./Timeclock/TimeclockController";
 import { TimeclockAddress } from "../Response/TimeclockAddress";
 import { UnknownController } from "./Unknown/UnknownController";
 import { ZoneAddress } from "../Response/ZoneAddress";
+import { LeapConfig } from "../Config";
 
 /**
  * Creates a device by type. This is a device factory.
@@ -23,12 +24,13 @@ import { ZoneAddress } from "../Response/ZoneAddress";
  * @param processor A reference to the processor.
  * @param area A reference to the area.
  * @param definition Device definition, this is either an area, zone or device.
+ * @param config Configuration for device behavior.
  *
  * @returns A common device object. Casting will be needed to access extended
  *          capibilities.
  * @private
  */
-export function createDevice(processor: Processor, area: AreaAddress, definition: unknown): Device {
+export function createDevice(processor: Processor, area: AreaAddress, definition: unknown, config?: LeapConfig): Device {
     const type = parseDeviceType((definition as ZoneAddress).ControlType || (definition as DeviceAddress).DeviceType);
 
     switch (type) {
@@ -42,7 +44,7 @@ export function createDevice(processor: Processor, area: AreaAddress, definition
             return new FanController(processor, area, definition as ZoneAddress);
 
         case DeviceType.Keypad:
-            return new KeypadController(processor, area, definition as DeviceAddress);
+            return new KeypadController(processor, area, definition as DeviceAddress, config);
 
         case DeviceType.Occupancy:
             return new OccupancyController(processor, area, {

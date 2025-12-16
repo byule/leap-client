@@ -6,7 +6,7 @@ Defines a keypad's LED current status response.
 
 ## Extends
 
--   `DeviceState`
+- `DeviceState`
 
 ## Properties
 
@@ -16,7 +16,7 @@ Defines a keypad's LED current status response.
 
 The address of the LED on the keypad.
 
----
+***
 
 ### state
 

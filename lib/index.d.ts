@@ -241,6 +241,19 @@ declare type ButtonAddress = Address & {
 };
 
 /**
+ * Configuration for individual button trigger behavior
+ */
+declare interface ButtonConfig {
+    /**
+     * Specifies which hardware event(s) trigger button actions.
+     * - 'press': Only Press events trigger actions
+     * - 'release': Only Release events trigger actions (default)
+     * - 'pressAndRelease': Both Press and Release events are used for full state machine
+     */
+    triggerOn?: "press" | "release" | "pressAndRelease";
+}
+
+/**
  * Defines a group of buttons.
  * @private
  */
@@ -386,6 +399,7 @@ export declare class Client extends EventEmitter<{
 }> {
     private context;
     private refresh;
+    private config;
     private discovery;
     private discovered;
     /**
@@ -398,8 +412,9 @@ export declare class Client extends EventEmitter<{
      * ```
      *
      * @param refresh If true, this will ignore any cache and reload.
+     * @param config Configuration for button behavior and other settings.
      */
-    constructor(refresh?: boolean);
+    constructor(refresh?: boolean, config?: LeapConfig);
     /**
      * A list of processors in this location.
      *
@@ -454,11 +469,12 @@ declare type ClientSetting = Address & {
  *
  * @param refresh (optional) Setting this to true will not load devices from
  *                cache.
+ * @param config (optional) Configuration for button behavior and other settings.
  *
  * @returns A reference to the location with all processors.
  * @public
  */
-export declare function connect(refresh?: boolean): Client;
+export declare function connect(refresh?: boolean, config?: LeapConfig): Client;
 
 /**
  * Connects to a device with the provided secure host.
@@ -1003,6 +1019,12 @@ export declare interface FanState extends DeviceState {
 export declare interface Keypad extends Keypad_2 {
     readonly buttons: Button[];
     /**
+     * Waits for async initialization to complete (button loading).
+     *
+     * @returns A promise that resolves when the device is fully initialized.
+     */
+    initialize(): Promise<void>;
+    /**
      * Controls this LEDs on this device.
      *
      * ```js
@@ -1033,6 +1055,19 @@ export declare interface KeypadState extends DeviceState {
      * The address of the LED on the keypad.
      */
     led: Address_2;
+}
+
+/**
+ * Configuration for the leap-client
+ */
+declare interface LeapConfig {
+    /**
+     * Button-specific configuration mapped by button name
+     * Example: { "Goodbye": { "triggerOn": "press" } }
+     */
+    buttonConfig?: {
+        [buttonName: string]: ButtonConfig;
+    };
 }
 
 /**
@@ -1594,6 +1629,12 @@ declare type Project = Address & {
  */
 export declare interface Remote extends Remote_2 {
     readonly buttons: Button[];
+    /**
+     * Waits for async initialization to complete (button loading).
+     *
+     * @returns A promise that resolves when the device is fully initialized.
+     */
+    initialize(): Promise<void>;
 }
 
 /**

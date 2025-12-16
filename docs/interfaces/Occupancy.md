@@ -6,7 +6,7 @@ Defines a occupancy sensor device.
 
 ## Extends
 
--   `Occupancy`
+- `Occupancy`
 
 ## Properties
 
@@ -20,7 +20,7 @@ The href address of the device. This is mainly used for Lutron systems.
 
 `OccupancyInterface.address`
 
----
+***
 
 ### area
 
@@ -32,7 +32,7 @@ The area the device is in.
 
 `OccupancyInterface.area`
 
----
+***
 
 ### capabilities
 
@@ -43,13 +43,13 @@ or read.
 
 #### Index Signature
 
-\[`key`: `string`\]: `Capability`
+ \[`key`: `string`\]: `Capability`
 
 #### Inherited from
 
 `OccupancyInterface.capabilities`
 
----
+***
 
 ### id
 
@@ -61,7 +61,7 @@ The device's unique identifier.
 
 `OccupancyInterface.id`
 
----
+***
 
 ### log
 
@@ -74,7 +74,7 @@ room and id.
 
 `OccupancyInterface.log`
 
----
+***
 
 ### manufacturer
 
@@ -86,7 +86,7 @@ The device's manufacturer.
 
 `OccupancyInterface.manufacturer`
 
----
+***
 
 ### name
 
@@ -98,7 +98,7 @@ The device's configured name.
 
 `OccupancyInterface.name`
 
----
+***
 
 ### room
 
@@ -110,7 +110,7 @@ The device's configured room.
 
 `OccupancyInterface.room`
 
----
+***
 
 ### status
 
@@ -126,7 +126,7 @@ The device's state.
 
 `OccupancyInterface.status`
 
----
+***
 
 ### type
 
@@ -164,7 +164,7 @@ The payload attached to the event.
 
 `OccupancyInterface.emit`
 
----
+***
 
 ### off()
 
@@ -190,7 +190,7 @@ The listener to unbind.
 
 `OccupancyInterface.off`
 
----
+***
 
 ### on()
 
@@ -216,7 +216,7 @@ The listener to bind.
 
 `OccupancyInterface.on`
 
----
+***
 
 ### once()
 
@@ -242,7 +242,7 @@ The listener to bind.
 
 `OccupancyInterface.once`
 
----
+***
 
 ### set()
 
@@ -262,7 +262,7 @@ Controls the device.
 
 `OccupancyInterface.set`
 
----
+***
 
 ### update()
 

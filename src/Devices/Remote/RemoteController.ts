@@ -20,6 +20,7 @@ export class RemoteController extends Common<DeviceState> implements Remote {
     public readonly buttons: Button[] = [];
 
     private triggers: Map<string, Trigger> = new Map();
+    private initPromise?: Promise<void>;
 
     /**
      * Creates a Pico remote device.
@@ -35,7 +36,8 @@ export class RemoteController extends Common<DeviceState> implements Remote {
     constructor(processor: Processor, area: AreaAddress, device: DeviceAddress) {
         super(DeviceType.Remote, processor, area, device, { state: "Unknown" });
 
-        this.processor
+        // Store the initialization promise so it can be awaited
+        this.initPromise = this.processor
             .buttons(this.address)
             .then((groups) => {
                 for (let i = 0; i < groups?.length; i++) {
@@ -78,6 +80,16 @@ export class RemoteController extends Common<DeviceState> implements Remote {
                 }
             })
             .catch((error: Error) => this.log.error(Colors.red(error.message)));
+    }
+
+    /**
+     * Waits for async initialization to complete.
+     * Safe to call multiple times - returns the same promise.
+     *
+     * @returns A promise that resolves when button loading is complete.
+     */
+    public initialize(): Promise<void> {
+        return this.initPromise || Promise.resolve();
     }
 
     /**

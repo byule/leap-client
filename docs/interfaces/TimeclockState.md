@@ -6,7 +6,7 @@ Defines a timeclock's current status response.
 
 ## Extends
 
--   `DeviceState`
+- `DeviceState`
 
 ## Properties
 

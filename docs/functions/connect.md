@@ -2,7 +2,7 @@
 
 # Function: connect()
 
-> **connect**(`refresh`?): [`Client`](../classes/Client.md)
+> **connect**(`refresh`?, `config`?): [`Client`](../classes/Client.md)
 
 Establishes a connection to all paired devices.
 
@@ -11,7 +11,11 @@ Establishes a connection to all paired devices.
 • **refresh?**: `boolean`
 
 (optional) Setting this to true will not load devices from
-cache.
+               cache.
+
+• **config?**: `LeapConfig`
+
+(optional) Configuration for button behavior and other settings.
 
 ## Returns
 

@@ -1,6 +1,7 @@
 import { Button, TriggerOptions, TriggerState } from "@mkellsy/hap-device";
 import { EventEmitter } from "@mkellsy/event-emitter";
 
+import "../../Types";
 import { ButtonAddress } from "../../Response/ButtonAddress";
 import { ButtonStatus } from "../../Response/ButtonStatus";
 import { Processor } from "../Processor/Processor";
@@ -47,13 +48,14 @@ export class TriggerController
             doubleClickSpeed: 300,
             clickSpeed: 450,
             raiseLower: false,
+            triggerOn: "pressAndRelease",
             ...options,
         };
 
         this.button = {
             id: this.id,
             index: this.index,
-            name: (this.action.Engraving || {}).Text || this.action.Name,
+            name: ((this.action.Engraving || {}).Text || this.action.Name).replace(/\n/g, " "),
         };
 
         if (this.options.raiseLower === true) this.button.raiseLower = true;
@@ -113,6 +115,59 @@ export class TriggerController
             this.emit("Press", this.button);
         };
 
+        // Handle 'press' mode: treat Press events as complete press/release cycles
+        if (this.options.triggerOn === "press") {
+            if (status.ButtonEvent.EventType === "Press") {
+                // Simulate immediate release for single/double press detection
+                if (this.state === TriggerState.Idle) {
+                    // First press
+                    this.state = TriggerState.Up;
+                    if (this.options.doubleClickSpeed > 0) {
+                        this.timer = setTimeout(doublePressTimeoutHandler, this.options.doubleClickSpeed);
+                    } else {
+                        doublePressTimeoutHandler();
+                    }
+                } else if (this.state === TriggerState.Up && this.timer) {
+                    // Second press (double press)
+                    this.reset();
+                    if (this.options.doubleClickSpeed === 0) return;
+                    this.emit("DoublePress", this.button);
+                }
+            } else if (status.ButtonEvent.EventType === "LongHold") {
+                // Handle LongHold events from hardware
+                this.reset();
+                this.emit("LongPress", this.button);
+            }
+            return;
+        }
+
+        // Handle 'release' mode: treat Release events as complete press/release cycles
+        if (this.options.triggerOn === "release") {
+            if (status.ButtonEvent.EventType === "Release") {
+                // Simulate immediate release for single/double press detection
+                if (this.state === TriggerState.Idle) {
+                    // First release
+                    this.state = TriggerState.Up;
+                    if (this.options.doubleClickSpeed > 0) {
+                        this.timer = setTimeout(doublePressTimeoutHandler, this.options.doubleClickSpeed);
+                    } else {
+                        doublePressTimeoutHandler();
+                    }
+                } else if (this.state === TriggerState.Up && this.timer) {
+                    // Second release (double press)
+                    this.reset();
+                    if (this.options.doubleClickSpeed === 0) return;
+                    this.emit("DoublePress", this.button);
+                }
+            } else if (status.ButtonEvent.EventType === "LongHold") {
+                // Handle LongHold events from hardware
+                this.reset();
+                this.emit("LongPress", this.button);
+            }
+            return;
+        }
+
+        // Handle 'pressAndRelease' mode: original state machine logic
         switch (this.state) {
             case TriggerState.Idle: {
                 if (status.ButtonEvent.EventType === "Press" && this.options.clickSpeed > 0) {
